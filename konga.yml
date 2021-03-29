@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: konga
+  labels:
+    app: konga
+spec:
+  selector:
+    matchLabels:
+      app: konga
+  template:
+    metadata:
+      labels:
+        app: konga
+    spec:
+      containers:
+      - name: konga
+        image: pantsel/konga
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: enter
+          containerPort: 1337
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: konga-svc
+spec:
+  type: LoadBalancer
+  ports:
+  - name: konga-http
+    port: 8050
+    targetPort: 1337
+    protocol: TCP
+  selector:
+    app: konga

@@ -1,0 +1,22 @@
+For postgres purpose, run migrations:
+
+docker run --rm \
+    --link kong-database:kong-database \
+    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+    kong kong migrations bootstrap
+
+
+docker run -d --name kong \
+    --link kong-database:kong-database \
+    -e "KONG_DATABASE=cassandra" \
+    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
+    -p 8000:8000 \
+    -p 8443:8443 \
+    -p 8001:8001 \
+    -p 8444:8444 \
+    kong
+
+
+-e "POSTGRES_USER=kong"
+-e "POSTGRES_PASSWORD=kong"
+-e "POSTGRES_DB=kong"

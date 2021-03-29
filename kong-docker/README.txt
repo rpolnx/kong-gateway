@@ -1,0 +1,1 @@
+If is first, time you should create a secret named kong_pg_password
